@@ -6,7 +6,7 @@ package btree
 import (
     "encoding/binary"
     "bytes"
-    "kvstore/util"
+    "kvstore/internal/util"
 )
 
 // type Node struct {

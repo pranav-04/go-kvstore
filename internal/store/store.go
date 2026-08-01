@@ -9,7 +9,7 @@ import(
 
 	"golang.org/x/sys/unix"
 
-	"kvstore/btree"
+	"kvstore/internal/btree"
 )
 
 const DB_SIG = "BuildYourOwnDB06"

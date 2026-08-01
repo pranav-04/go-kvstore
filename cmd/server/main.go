@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"kvstore/store"
+	"kvstore/internal/store"
 )
 
 // Test B*-tree code

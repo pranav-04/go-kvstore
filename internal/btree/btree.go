@@ -3,7 +3,7 @@ package btree
 import (
     "bytes"
     "errors"
-    "kvstore/util"
+    "kvstore/internal/util"
 )
 
 var (
