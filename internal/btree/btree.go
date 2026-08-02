@@ -211,7 +211,7 @@ func (tree *BTree) Delete(key []byte) error {
     }
     node := treeDelete(tree, tree.get(tree.root), key)
     if len(node) == 0 {
-        return nil // not found, nothing to delete
+        return ErrKeyNotFound
     }
     // the root may be shrunk, but it cannot be merged with a sibling.
     oldRoot := tree.root
