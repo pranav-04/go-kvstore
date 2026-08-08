@@ -1,0 +1,13 @@
+[Unit]
+Description=KV Store Server
+After=network.target
+
+[Service]
+Type=simple
+User=azureuser
+ExecStart=/opt/kvstore/bin/kvstore-server
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
