@@ -22,6 +22,6 @@ func main() {
 	mux := http.NewServeMux()
 	handler.RegisterRoutes(mux)
 
-	log.Println("Listening on :8080")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	log.Println("Listening on 127.0.0.1:8080")
+	log.Fatal(http.ListenAndServe("127.0.0.1:8080", mux))
 }
