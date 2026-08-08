@@ -8,7 +8,7 @@ import (
 	"kvstore/internal/store"
 )
 
-const DB_FILE = "KvStore.db"
+const DB_FILE = "/opt/kvstore/kvstore.db"
 
 func main() {
 	kvstore := store.NewStore(DB_FILE)
