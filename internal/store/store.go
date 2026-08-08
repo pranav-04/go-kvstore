@@ -3,13 +3,14 @@ package store
 import(
 	"fmt"
 	"encoding/binary"
+    "errors"
 	"os"
 	"path"
 	"syscall"
 
 	"golang.org/x/sys/unix"
 
-	"kvstore/btree"
+	"kvstore/internal/btree"
 )
 
 const DB_SIG = "BuildYourOwnDB06"
@@ -94,8 +95,13 @@ func (db *Store) Open() error {
 	return nil
 }
 
-func (db *Store) Get(key []byte) (bool, []byte) {
-    return db.tree.Lookup(key)
+func (db *Store) Get(key []byte) ([]byte, error) {
+    exists, val := db.tree.Lookup(key)
+    if (!exists) {
+        return nil, ErrKeyNotFound
+    }
+
+    return val, nil
 }
 
 func (db *Store) Set(key []byte, val []byte) error {
@@ -109,8 +115,13 @@ func (db *Store) Set(key []byte, val []byte) error {
 func (db *Store) Del(key []byte) (bool, error) {
     err := db.tree.Delete(key)
 	if (err != nil) {
-		return false, err
+		if errors.Is(err, btree.ErrKeyNotFound) {
+            return false, fmt.Errorf("get %q: %w", key, ErrKeyNotFound)
+        }
+
+        return false, fmt.Errorf("get %q: %w", key, err)
 	}
+
     return true, updateFile(db)
 }
 

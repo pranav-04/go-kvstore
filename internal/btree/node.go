@@ -6,7 +6,7 @@ package btree
 import (
     "encoding/binary"
     "bytes"
-    "kvstore/util"
+    "kvstore/internal/util"
 )
 
 // type Node struct {
@@ -70,7 +70,7 @@ func (node BNode) kvPos(idx uint16) uint16 {
 }
 
 func (node BNode) getKey(idx uint16) []byte {
-	util.Assert(idx < node.nkeys())
+    util.Assert(idx < node.nkeys())
 	pos := node.kvPos(idx)
 	endPos := pos + 2
 	klen := binary.LittleEndian.Uint16(node[pos:endPos])
@@ -146,27 +146,18 @@ func leafDelete(
 }
 
 func nodeLookup(node BNode, key []byte) uint16 {
-    lo, hi := uint16(0), node.nkeys()-1
+    lo, hi := uint16(0), node.nkeys()
+
     for lo < hi {
         mid := lo + (hi - lo) / 2
-        cmp := bytes.Compare(node.getKey(mid), key)
-
-        if (cmp == 0) {
-            return mid
-        }
-
-        if cmp < 0 {
+        if bytes.Compare(node.getKey(mid), key) <= 0 {
             lo = mid + 1
         } else {
             hi = mid
         }
     }
-    
-    if (bytes.Equal(node.getKey(lo), key)) {
-        return lo
-    }
 
-    return lo-1
+    return lo - 1
 }
 
 // func nodeLookup(node BNode, key []byte) uint16 {
